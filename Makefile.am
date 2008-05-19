@@ -31,11 +31,10 @@ clean-local:
 $(gpc_ASSEMBLY): $(gpc_FILES)
 	mkdir -p $(BUILD)
 	$(CSC) $(CSC_FLAGS) -target:library -out:$@ \
-		-keyfile:etc/MfGames.Utility.snk \
-		-doc:$(BUILD)/MfGames.Utility.xml \
+		-keyfile:etc/Gpc.snk \
+		-doc:$(BUILD)/Gpc.xml \
 		/d:TRACE /d:DEBUG \
 		/r:System.Drawing \
-		@log4net_LIBS@ \
 		$(realpath $(gpc_FILES))
 	chmod a-x $@
 

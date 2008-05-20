@@ -62,7 +62,7 @@ namespace Gpc
 	 * @author  Dan Bridenbecker, Solution Engineering, Inc.
 	 */
 	public class PolyDefault
-	: Poly
+	: IPoly
 	{
 		// -----------------
 		// --- Constants ---
@@ -75,7 +75,7 @@ namespace Gpc
 		 * Only applies to the first poly and can only be used with a poly that contains one poly
 		 */
 		private   bool m_IsHole = false ;
-		protected ArrayList    m_List   = new ArrayList();
+		protected ArrayList m_List = new ArrayList();
    
 		// --------------------
 		// --- Constructors ---
@@ -117,8 +117,8 @@ namespace Gpc
 			// Loop through and make sure each item is equal
 			for (int i = 0; i < m_List.Count; i++)
 			{
-				Poly p1 = (Poly) m_List[i];
-				Poly p2 = (Poly) that.m_List[i];
+				IPoly p1 = (IPoly) m_List[i];
+				IPoly p2 = (IPoly) that.m_List[i];
 				
 				if (!p1.Equals(p2))
 					return false;
@@ -175,7 +175,7 @@ namespace Gpc
 			{
 				m_List.Add( new PolySimple() );
 			}
-			((Poly)m_List[0]).Add(p);
+			((IPoly)m_List[0]).Add(p);
 		}
    
 		/**
@@ -186,7 +186,7 @@ namespace Gpc
 		 * zero and this polygon was designated a hole.  This would break the assumption
 		 * that only simple polygons can be holes.
 		 */
-		public void Add( Poly p )
+		public void Add( IPoly p )
 		{
 			if( (m_List.Count > 0) && m_IsHole )
 			{
@@ -215,7 +215,7 @@ namespace Gpc
 			}
 			else if( m_List.Count == 1 )
 			{
-				Poly ip = GetInnerPoly(0);
+				IPoly ip = GetInnerPoly(0);
 				return ip.GetBounds();
 			}
 			else
@@ -227,25 +227,38 @@ namespace Gpc
 		/**
 		 * Returns the polygon at this index.
 		 */
-		public Poly GetInnerPoly(int polyIndex)
+		public IPoly GetInnerPoly(int polyIndex)
 		{
-			return (Poly)m_List[polyIndex];
+			return (IPoly)m_List[polyIndex];
 		}
    
-		/**
-		 * Returns the number of inner polygons - inner polygons are assumed to return one here.
-		 */
-		public int GetNumInnerPoly()
+		/// <summary>
+		/// Returns the number of inner polygons. Inner polygons are
+		/// assumed to always return 1 here.
+		/// </summary>
+		public int InnerPolygonCount
 		{
-			return m_List.Count;
+			get
+			{
+				if (m_List == null || m_List.Count == 0)
+					return 0;
+				else
+					return m_List.Count;
+			}
 		}
    
-		/**
-		 * Return the number points of the first inner polygon
-		 */
-		public int GetNumPoints()
+		/// <summary>
+		/// Returns the number of points in the first inner polygon.
+		/// </summary>
+		public int PointCount
 		{
-			return ((Poly)m_List[0]).GetNumPoints() ;
+			get
+			{
+				if (m_List == null || m_List.Count == 0)
+					return 0;
+				else
+					return ((IPoly) m_List[0]).PointCount;
+			}
 		}
    
 		/**
@@ -253,7 +266,7 @@ namespace Gpc
 		 */
 		public double GetX(int index)
 		{
-			return ((Poly)m_List[0]).GetX(index) ;
+			return ((IPoly)m_List[0]).GetX(index) ;
 		}
    
 		/**
@@ -261,7 +274,7 @@ namespace Gpc
 		 */
 		public double GetY(int index)
 		{
-			return ((Poly)m_List[0]).GetY(index) ;
+			return ((IPoly)m_List[0]).GetY(index) ;
 		}
    
 		/**
@@ -299,7 +312,7 @@ namespace Gpc
 		 */
 		public bool IsContributing( int polyIndex)
 		{
-			return ((Poly)m_List[polyIndex]).IsContributing(0);
+			return ((IPoly)m_List[polyIndex]).IsContributing(0);
 		}
    
 		/**
@@ -314,38 +327,49 @@ namespace Gpc
 			{
 				throw new Exception( "Only applies to polys of size 1" );
 			}
-			((Poly)m_List[polyIndex]).SetContributing( 0, contributes );
+			((IPoly)m_List[polyIndex]).SetContributing( 0, contributes );
 		}
    
 		/**
-		 * Return a Poly that is the intersection of this polygon with the given polygon.
+		 * Return a IPoly that is the difference of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 *
-		 * @return the returned Poly will be an instance of PolyDefault.
+		 * @return the returned IPoly will be an instance of PolyDefault.
 		 */
-		public Poly Intersection(Poly p)
+		public IPoly Difference(IPoly p)
+		{
+			return Clipper.Difference( p, this, GetType() );
+		}
+   
+		/**
+		 * Return a IPoly that is the intersection of this polygon with the given polygon.
+		 * The returned polygon could be complex.
+		 *
+		 * @return the returned IPoly will be an instance of PolyDefault.
+		 */
+		public IPoly Intersection(IPoly p)
 		{
 			return Clipper.Intersection( p, this, GetType() );
 		}
    
 		/**
-		 * Return a Poly that is the union of this polygon with the given polygon.
+		 * Return a IPoly that is the union of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 *
-		 * @return the returned Poly will be an instance of PolyDefault.
+		 * @return the returned IPoly will be an instance of PolyDefault.
 		 */
-		public Poly Union(Poly p)
+		public IPoly Union(IPoly p)
 		{
 			return Clipper.Union( p, this, GetType() );
 		}
    
 		/**
-		 * Return a Poly that is the exclusive-or of this polygon with the given polygon.
+		 * Return a IPoly that is the exclusive-or of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 *
-		 * @return the returned Poly will be an instance of PolyDefault.
+		 * @return the returned IPoly will be an instance of PolyDefault.
 		 */
-		public Poly Xor(Poly p)
+		public IPoly Xor(IPoly p)
 		{
 			return Clipper.Xor( p, this, GetType() );
 		}
@@ -356,9 +380,9 @@ namespace Gpc
 		public double GetArea()
 		{
 			double area = 0.0 ;
-			for( int i = 0 ; i < GetNumInnerPoly() ; i++ )
+			for( int i = 0 ; i < InnerPolygonCount ; i++ )
 			{
-				Poly p = GetInnerPoly(i);
+				IPoly p = GetInnerPoly(i);
 				double tarea = p.GetArea() * (p.IsHole() ? -1.0 : 1.0);
 				area += tarea ;
 			}
@@ -372,9 +396,9 @@ namespace Gpc
 		{
 			for( int i = 0 ; i < m_List.Count ; i++ )
 			{
-				Poly p = GetInnerPoly(i);
+				IPoly p = GetInnerPoly(i);
 				Console.WriteLine("InnerPoly("+i+").hole="+p.IsHole());
-				for( int j = 0 ; j < p.GetNumPoints() ; j++ )
+				for( int j = 0 ; j < p.PointCount; j++ )
 				{
 					Console.WriteLine(p.GetX(j)+"  "+p.GetY(j));
 				}

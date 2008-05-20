@@ -92,6 +92,20 @@ namespace Gpc
 
 		#region Static Methods
 		/**
+		 * Return the difference of <code>p1</code> and <code>p2</code> where the
+		 * return type is of <code>polyType</code>.  See the note in the class description
+		 * for more on <ocde>polyType</code>.
+		 *
+		 * @param p1        One of the polygons to performt he intersection with
+		 * @param p2        One of the polygons to performt he intersection with
+		 * @param polyType The type of <code>Poly</code> to return
+		 */
+		public static IPoly Difference( IPoly p1, IPoly p2, Type polyType )
+		{
+			return Clip( OperationType.GPC_DIFF, p1, p2, polyType );
+		}
+
+		/**
 		 * Return the intersection of <code>p1</code> and <code>p2</code> where the
 		 * return type is of <code>polyType</code>.  See the note in the class description
 		 * for more on <ocde>polyType</code>.
@@ -100,7 +114,7 @@ namespace Gpc
 		 * @param p2        One of the polygons to performt he intersection with
 		 * @param polyType The type of <code>Poly</code> to return
 		 */
-		public static Poly Intersection( Poly p1, Poly p2, Type polyType )
+		public static IPoly Intersection( IPoly p1, IPoly p2, Type polyType )
 		{
 			return Clip( OperationType.GPC_INT, p1, p2, polyType );
 		}
@@ -114,7 +128,7 @@ namespace Gpc
 		 * @param p2        One of the polygons to performt he union with
 		 * @param polyType The type of <code>Poly</code> to return
 		 */
-		public static Poly Union( Poly p1, Poly p2, Type polyType )
+		public static IPoly Union( IPoly p1, IPoly p2, Type polyType )
 		{
 			return Clip( OperationType.GPC_UNION, p1, p2, polyType );
 		}
@@ -128,11 +142,23 @@ namespace Gpc
 		 * @param p2        One of the polygons to performt he xor with
 		 * @param polyType The type of <code>Poly</code> to return
 		 */
-		public static Poly Xor( Poly p1, Poly p2, Type polyType )
+		public static IPoly Xor( IPoly p1, IPoly p2, Type polyType )
 		{
 			return Clip( OperationType.GPC_XOR, p1, p2, polyType );
 		}
    
+		/**
+		 * Return the difference of <code>p1</code> and <code>p2</code> where the
+		 * return type is of <code>PolyDefault</code>. 
+		 *
+		 * @param p1 One of the polygons to performt he intersection with
+		 * @param p2 One of the polygons to performt he intersection with
+		 */
+		public static IPoly Difference( IPoly p1, IPoly p2 )
+		{
+			return Clip( OperationType.GPC_DIFF, p1, p2, typeof(PolyDefault) );
+		}
+
 		/**
 		 * Return the intersection of <code>p1</code> and <code>p2</code> where the
 		 * return type is of <code>PolyDefault</code>. 
@@ -140,7 +166,7 @@ namespace Gpc
 		 * @param p1 One of the polygons to performt he intersection with
 		 * @param p2 One of the polygons to performt he intersection with
 		 */
-		public static Poly Intersection( Poly p1, Poly p2 )
+		public static IPoly Intersection( IPoly p1, IPoly p2 )
 		{
 			return Clip( OperationType.GPC_INT, p1, p2, typeof(PolyDefault) );
 		}
@@ -152,7 +178,7 @@ namespace Gpc
 		 * @param p1 One of the polygons to performt he union with
 		 * @param p2 One of the polygons to performt he union with
 		 */
-		public static Poly Union( Poly p1, Poly p2 )
+		public static IPoly Union( IPoly p1, IPoly p2 )
 		{
 			return Clip( OperationType.GPC_UNION, p1, p2, typeof(PolyDefault) );
 		}
@@ -164,7 +190,7 @@ namespace Gpc
 		 * @param p1 One of the polygons to performt he xor with
 		 * @param p2 One of the polygons to performt he xor with
 		 */
-		public static Poly Xor( Poly p1, Poly p2 )
+		public static IPoly Xor( IPoly p1, IPoly p2 )
 		{
 			return Clip( OperationType.GPC_XOR, p1, p2, typeof(PolyDefault) );
 		}
@@ -174,11 +200,11 @@ namespace Gpc
 		/**
 		 * Create a new <code>Poly</code> type object using <code>polyType</code>.
 		 */
-		private static Poly CreateNewPoly( Type polyType )
+		private static IPoly CreateNewPoly( Type polyType )
 		{
 			try
 			{
-				return (Poly) Activator.CreateInstance(polyType);
+				return (IPoly) Activator.CreateInstance(polyType);
 			}
 			catch( Exception e )
 			{
@@ -190,13 +216,13 @@ namespace Gpc
 		/// <code>clip()</code> is the main method of the clipper This
 		/// is where the conversion from really begins.
 		/// </summary>
-		private static Poly Clip(
+		private static IPoly Clip(
 			OperationType op,
-			Poly subj, Poly clip,
+			IPoly subj, IPoly clip,
 			Type polyType)
 		{
 			// Create an empty type
-			Poly result = CreateNewPoly(polyType) ;
+			IPoly result = CreateNewPoly(polyType) ;
       
 			/* Test for trivial NULL result cases */
 			if( (subj.IsEmpty() && clip.IsEmpty()) ||
@@ -832,32 +858,32 @@ namespace Gpc
 			return ((i + 1    ) % n);
 		}
 
-		private static bool OPTIMAL( Poly p, int i )
+		private static bool OPTIMAL( IPoly p, int i )
 		{
-			return (p.GetY(PREV_INDEX(i, p.GetNumPoints())) != p.GetY(i)) || 
-				(p.GetY(NEXT_INDEX(i, p.GetNumPoints())) != p.GetY(i)) ;
+			return (p.GetY(PREV_INDEX(i, p.PointCount)) != p.GetY(i)) || 
+				(p.GetY(NEXT_INDEX(i, p.PointCount)) != p.GetY(i)) ;
 		}
    
-		private static RectangleF[] create_contour_bboxes( Poly p )
+		private static RectangleF[] create_contour_bboxes( IPoly p )
 		{
-			RectangleF[] box = new RectangleF[p.GetNumInnerPoly()] ;
+			RectangleF[] box = new RectangleF[p.InnerPolygonCount] ;
 
 			/* Construct contour bounding boxes */
-			for ( int c= 0; c < p.GetNumInnerPoly(); c++)
+			for ( int c= 0; c < p.InnerPolygonCount; c++)
 			{
-				Poly inner_poly = p.GetInnerPoly(c);
+				IPoly inner_poly = p.GetInnerPoly(c);
 				box[c] = inner_poly.GetBounds();
 			}
 			return box;  
 		}
    
-		private static void minimax_test( Poly subj, Poly clip, OperationType op )
+		private static void minimax_test( IPoly subj, IPoly clip, OperationType op )
 		{
 			RectangleF[] s_bbox = create_contour_bboxes(subj);
 			RectangleF[] c_bbox = create_contour_bboxes(clip);
       
-			int subj_num_poly = subj.GetNumInnerPoly();
-			int clip_num_poly = clip.GetNumInnerPoly();
+			int subj_num_poly = subj.InnerPolygonCount;
+			int clip_num_poly = clip.InnerPolygonCount;
 			bool[,] o_table = new bool[subj_num_poly,clip_num_poly] ;
 
 			/* Check all subject contour bounding boxes against clip boxes */
@@ -1205,16 +1231,16 @@ namespace Gpc
    
 		private static EdgeTable build_lmt( LmtTable lmt_table, 
 			ScanBeamTreeEntries sbte,
-			Poly p, 
+			IPoly p, 
 			int type, //poly type SUBJ/CLIP
 			OperationType op)
 		{
 			/* Create the entire input polygon edge table in one go */
 			EdgeTable edge_table = new EdgeTable();
 
-			for ( int c= 0; c < p.GetNumInnerPoly(); c++)
+			for ( int c= 0; c < p.InnerPolygonCount; c++)
 			{
-				Poly ip = p.GetInnerPoly(c);
+				IPoly ip = p.GetInnerPoly(c);
 				if( !ip.IsContributing(0) )
 				{
 					/* Ignore the non-contributing contour */
@@ -1226,7 +1252,7 @@ namespace Gpc
 					int num_vertices= 0;
 					int e_index = 0 ;
 					edge_table = new EdgeTable();
-					for ( int i= 0; i < ip.GetNumPoints(); i++)
+					for ( int i= 0; i < ip.PointCount; i++)
 					{
 						if( OPTIMAL(ip, i) )
 						{
@@ -1627,9 +1653,9 @@ namespace Gpc
 				return nc;
 			}
       
-			public Poly getResult( Type polyType )
+			public IPoly getResult( Type polyType )
 			{
-				Poly result = CreateNewPoly( polyType );
+				IPoly result = CreateNewPoly( polyType );
 				int num_contours = count_contours();
 				if (num_contours > 0)
 				{
@@ -1640,7 +1666,7 @@ namespace Gpc
 						npoly_node = poly_node.next;
 						if (poly_node.active != 0)
 						{
-							Poly poly = result ;
+							IPoly poly = result ;
 							if( num_contours > 1 )
 							{
 								poly = CreateNewPoly( polyType );
@@ -1668,19 +1694,19 @@ namespace Gpc
 					// -----------------------------------------
 					// --- Sort holes to the end of the list ---
 					// -----------------------------------------
-					Poly orig = result ;
+					IPoly orig = result ;
 					result = CreateNewPoly( polyType );
-					for( int i = 0 ; i < orig.GetNumInnerPoly() ; i++ )
+					for( int i = 0 ; i < orig.InnerPolygonCount ; i++ )
 					{
-						Poly inner = orig.GetInnerPoly(i);
+						IPoly inner = orig.GetInnerPoly(i);
 						if( !inner.IsHole() )
 						{
 							result.Add(inner);
 						}
 					}
-					for( int i = 0 ; i < orig.GetNumInnerPoly() ; i++ )
+					for( int i = 0 ; i < orig.InnerPolygonCount ; i++ )
 					{
-						Poly inner = orig.GetInnerPoly(i);
+						IPoly inner = orig.GetInnerPoly(i);
 						if( inner.IsHole() )
 						{
 							result.Add(inner);

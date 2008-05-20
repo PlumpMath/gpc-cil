@@ -10,15 +10,14 @@ gpc_FILES =  \
 	Gpc/OperationType.cs \
 	Gpc/PolyDefault.cs \
 	Gpc/PolySimple.cs \
-	Gpc/VertexType.cs
-
-test_DLL = test.dll
-test_ASSEMBLY = $(BUILD)/$(test_DLL)
-test_FILES = \
+	Gpc/VertexType.cs \
 	Gpc/ClipTest.cs \
 	Gpc/GeomTest.cs \
 	Gpc/PolyDefaultTest.cs
 
+test_ASSEMBLY_NAME = test
+test_DLL = $(test_ASSEMBLY_NAME).dll
+test_ASSEMBLY = $(BUILD)/$(test_DLL)
 
 # Generic
 all: $(gpc_ASSEMBLY) $(test_ASSEMBLY)
@@ -28,27 +27,30 @@ clean-local:
 	$(RM) -f *~ */*~ */*/*~
 	$(RM) -rf autom4te.cache config.log
 
-$(gpc_ASSEMBLY): $(gpc_FILES)
+$(gpc_ASSEMBLY): $(gpc_FILES) Makefile
 	mkdir -p $(BUILD)
 	$(CSC) $(CSC_FLAGS) -target:library -out:$@ \
 		-keyfile:etc/Gpc.snk \
 		-doc:$(BUILD)/Gpc.xml \
-		/d:TRACE /d:DEBUG \
 		/r:System.Drawing \
 		$(realpath $(gpc_FILES))
 	chmod a-x $@
 
-$(test_ASSEMBLY): $(test_FILES) $(gpc_ASSEMBLY)
+$(test_ASSEMBLY): $(test_FILES)
+	mkdir -p $(BUILD)
 	$(CSC) $(CSC_FLAGS) -target:library -out:$@ \
+		-keyfile:etc/Gpc.snk \
+		/d:DEBUG /d:TRACE \
+		/r:System.Drawing \
 		@nunit_LIBS@ \
-		-r:$(gpc_ASSEMBLY) \
-		$(realpath $(test_FILES))
+		$(realpath $(gpc_FILES))
+	chmod a-x $@
 
 #	Delete the file if the nunit fails
 	@NUNIT_CONSOLE@ /nologo $@ || rm $(test_ASSEMBLY)
 
 # pkgconfig
-pkgconfig_in_files = etc/gpc-0.0.pc.in
+pkgconfig_in_files = etc/gpc-sharp-0.0.pc.in
 pkgconfigdir= $(prefix)/lib/pkgconfig
 pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=.pc)
 
@@ -73,5 +75,5 @@ EXTRA_DIST = $(pkgconfig_in_files) etc/Gpc.snk
 EXTRA_DIST += $(gpc_FILES)
 EXTRA_DIST += $(test_FILES)
 
-DISTCLEANFILES = etc/gpc-0.0.pc
+DISTCLEANFILES = etc/gpc-sharp-0.0.pc
 DISTCLEANFILES += Gpc/AssemblyInfo.cs

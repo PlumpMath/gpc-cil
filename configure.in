@@ -55,7 +55,7 @@ AC_SUBST(GACUTIL_FLAGS)
 AC_OUTPUT([
 Makefile
 Gpc/AssemblyInfo.cs
-etc/gpc-0.0.pc
+etc/gpc-sharp-0.0.pc
 ])
 
 echo ""

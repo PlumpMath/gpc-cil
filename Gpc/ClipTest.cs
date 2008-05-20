@@ -1,3 +1,4 @@
+#if DEBUG
 /*
  * This license does NOT supersede the original license of GPC.  Please see:
  * http://www.cs.man.ac.uk/~toby/alan/software/#Licensing
@@ -65,19 +66,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionEmptySet()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 0.0, 1.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 3.0 );
       
-			Poly empty = Clipper.Intersection( p1, p2 );
+			IPoly empty = Clipper.Intersection( p1, p2 );
 			Assert.IsTrue( empty.IsEmpty() );
 		}
    
@@ -89,13 +90,13 @@ namespace Gpc
 		[Category("Test")]
 		public void TestIntersectionOneContainsTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
 
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
@@ -113,19 +114,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionTwoContainsOne()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 0.0 );
 			p1.Add( 3.0, 0.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 2.0, 3.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p1, result );
 		}
    
@@ -136,19 +137,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionTwoEqual()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p1, result );
 		}
    
@@ -159,19 +160,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 0.0, 1.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p2, result );
 		}
    
@@ -182,19 +183,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p2, result );
 		}
    
@@ -205,19 +206,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 4.0, 3.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p2, result );
 		}
    
@@ -228,19 +229,19 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( p2, result );
 		}
    
@@ -251,25 +252,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 2.0, 2.0 );
 			exp.Add( 3.0, 2.0 );
 			exp.Add( 3.0, 3.0 );
 			exp.Add( 2.0, 3.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -280,25 +281,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 5.0, 1.0 );
 			p2.Add( 5.0, 3.0 );
 			p2.Add( 3.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 3.0, 2.0 );
 			exp.Add( 4.0, 2.0 );
 			exp.Add( 4.0, 3.0 );
 			exp.Add( 3.0, 3.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -309,25 +310,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 5.0, 3.0 );
 			p2.Add( 5.0, 5.0 );
 			p2.Add( 3.0, 5.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 3.0, 3.0 );
 			exp.Add( 4.0, 3.0 );
 			exp.Add( 4.0, 4.0 );
 			exp.Add( 3.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -338,25 +339,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 3.0, 5.0 );
 			p2.Add( 1.0, 5.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 2.0, 3.0 );
 			exp.Add( 3.0, 3.0 );
 			exp.Add( 3.0, 4.0 );
 			exp.Add( 2.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -368,25 +369,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterSide1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 1.0, 2.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 3.0, 1.0 );
 			exp.Add( 3.0, 2.0 );
 			exp.Add( 1.0, 2.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -398,25 +399,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterSide2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 5.0, 2.0 );
 			p2.Add( 5.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 3.0, 2.0 );
 			exp.Add( 4.0, 2.0 );
 			exp.Add( 4.0, 4.0 );
 			exp.Add( 3.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -428,25 +429,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterSide3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 3.0, 6.0 );
 			p2.Add( 1.0, 6.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 4.0 );
 			exp.Add( 3.0, 4.0 );
 			exp.Add( 3.0, 5.0 );
 			exp.Add( 1.0, 5.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -458,25 +459,25 @@ namespace Gpc
 		[Test]
 		public void TestIntersectionRectInterSide4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( -1.0, 2.0 );
 			p2.Add(  1.0, 2.0 );
 			p2.Add(  1.0, 4.0 );
 			p2.Add( -1.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 2.0 );
 			exp.Add( 1.0, 2.0 );
 			exp.Add( 1.0, 4.0 );
 			exp.Add( 0.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -485,14 +486,14 @@ namespace Gpc
 		 * polygons - 1 on top of two = empty*/
 		[Test] public void TestIntersectionPolyOneOnTopOfTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 4.0 );
 			p1.Add( 5.0, 4.0 );
 			p1.Add( 5.0, 9.0 );
 			p1.Add( 3.0, 7.0 );
 			p1.Add( 1.0, 9.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -502,7 +503,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.IsTrue( result.IsEmpty() );
 		}
    
@@ -512,14 +513,14 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionPolyTwoSidesOneVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 3.0 );
 			p1.Add( 5.0, 3.0 );
 			p1.Add( 5.0, 8.0 );
 			p1.Add( 3.0, 6.0 );
 			p1.Add( 1.0, 8.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -529,16 +530,16 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
 
-			Poly iexp1 = new PolyDefault();
+			IPoly iexp1 = new PolyDefault();
 			iexp1.Add( 4.0, 4.0 );
 			iexp1.Add( 3.0, 3.0 );
 			iexp1.Add( 5.0, 3.0 );
-			Poly iexp2 = new PolyDefault();
+			IPoly iexp2 = new PolyDefault();
 			iexp2.Add( 1.0, 3.0 );
 			iexp2.Add( 3.0, 3.0 );
 			iexp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( iexp1 );
 			exp.Add( iexp2 );
       
@@ -553,14 +554,14 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionPolyTwoSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 2.0 );
 			p1.Add( 5.0, 2.0 );
 			p1.Add( 5.0, 7.0 );
 			p1.Add( 3.0, 5.0 );
 			p1.Add( 1.0, 7.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -570,7 +571,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 2.0 );
 			exp.Add( 5.0, 2.0 );
 			exp.Add( 5.0, 3.0 );
@@ -590,14 +591,14 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionPolyTwoSidesAndLowerVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 5.0, 1.0 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -607,7 +608,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 5.0, 1.0 );
 			exp.Add( 5.0, 3.0 );
@@ -627,14 +628,14 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionPolyFourSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.5 );
 			p1.Add( 5.0, 0.5 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -644,7 +645,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 1.5, 0.5 );
 			exp.Add( 2.5, 0.5 );
@@ -658,7 +659,7 @@ namespace Gpc
 			exp.Add( 2.0, 4.0 );
 			exp.Add( 1.0, 3.0 );
       
-			Poly result = Clipper.Intersection( p1, p2 );
+			IPoly result = Clipper.Intersection( p1, p2 );
 			Assert.AreEqual( exp, result );
 		}
    
@@ -668,14 +669,14 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionPolyVOverlaps()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 5.0, 0.0 );
 			p1.Add( 5.0, 5.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 1.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -685,7 +686,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 2.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -707,29 +708,29 @@ namespace Gpc
 		 */
 		[Test] public void TestIntersectionRectangleHole()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault(true);
+			IPoly p2 = new PolyDefault(true);
 			p2.Add( 1.0, 2.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 1.0, 4.0 );
       
-			Poly p12 = new PolyDefault();
+			IPoly p12 = new PolyDefault();
 			p12.Add( p1 );
 			p12.Add( p2 );
 
-			Poly p3 = new PolyDefault();
+			IPoly p3 = new PolyDefault();
 			p3.Add( 2.0, 0.0 );
 			p3.Add( 6.0, 0.0 );
 			p3.Add( 6.0, 6.0 );
 			p3.Add( 2.0, 6.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 2.0, 1.0 );
 			exp.Add( 4.0, 1.0 );
 			exp.Add( 4.0, 5.0 );
@@ -753,19 +754,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionSeparate()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 0.0, 1.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 3.0 );
 
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( p2 );
 			exp.Add( p1 );
       
@@ -780,13 +781,13 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionOneContainsTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
@@ -802,13 +803,13 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionTwoContainsOne()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 0.0 );
 			p1.Add( 3.0, 0.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 2.0, 3.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
@@ -825,13 +826,13 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionTwoEqual()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
@@ -848,19 +849,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 0.0, 1.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 4.0 );
@@ -878,19 +879,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 1.0 ); // !!! KNOWN BUG - EXTRA POINT BUT SHAPE IS CORRECT
@@ -908,19 +909,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 4.0, 3.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 3.0 ); // !!! KNOWN BUG - EXTRA POINT BUT SHAPE IS CORRECT
@@ -938,19 +939,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 4.0 );
@@ -968,19 +969,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 3.0, 1.0 );
 			exp.Add( 3.0, 2.0 );
@@ -1001,19 +1002,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 5.0, 1.0 );
 			p2.Add( 5.0, 3.0 );
 			p2.Add( 3.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 3.0, 1.0 );
 			exp.Add( 5.0, 1.0 );
 			exp.Add( 5.0, 3.0 );
@@ -1034,19 +1035,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 5.0, 3.0 );
 			p2.Add( 5.0, 5.0 );
 			p2.Add( 3.0, 5.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 5.0, 3.0 );
 			exp.Add( 5.0, 5.0 );
 			exp.Add( 3.0, 5.0 );
@@ -1067,19 +1068,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 3.0, 5.0 );
 			p2.Add( 1.0, 5.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 3.0 );
 			exp.Add( 2.0, 3.0 );
 			exp.Add( 2.0, 2.0 );
@@ -1101,19 +1102,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterSide1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 1.0, 2.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 0.0 );
 			exp.Add( 3.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -1135,19 +1136,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterSide2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 5.0, 2.0 );
 			p2.Add( 5.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 1.0 );
 			exp.Add( 4.0, 1.0 );
 			exp.Add( 4.0, 2.0 );
@@ -1169,19 +1170,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterSide3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 3.0, 6.0 );
 			p2.Add( 1.0, 6.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 1.0 );
 			exp.Add( 4.0, 1.0 );
 			exp.Add( 4.0, 5.0 );
@@ -1203,19 +1204,19 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectInterSide4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( -1.0, 2.0 );
 			p2.Add(  1.0, 2.0 );
 			p2.Add(  1.0, 4.0 );
 			p2.Add( -1.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add(  0.0, 1.0 );
 			exp.Add(  4.0, 1.0 );
 			exp.Add(  4.0, 5.0 );
@@ -1235,14 +1236,14 @@ namespace Gpc
 		 * polygons - 1 on top of two */
 		[Test] public void TestUnionPolyOneOnTopOfTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 4.0 );
 			p1.Add( 5.0, 4.0 );
 			p1.Add( 5.0, 9.0 );
 			p1.Add( 3.0, 7.0 );
 			p1.Add( 1.0, 9.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1252,7 +1253,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 0.0, 2.0 );
 			exp1.Add( 2.0, 0.0 );
 			exp1.Add( 3.0, 1.0 );
@@ -1266,12 +1267,12 @@ namespace Gpc
 			exp1.Add( 1.0, 4.0 );
 			exp1.Add( 2.0, 4.0 );
       
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 4.0, 4.0 );
 			exp2.Add( 3.0, 3.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
       
@@ -1286,14 +1287,14 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionPolyTwoSidesOneVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 3.0 );
 			p1.Add( 5.0, 3.0 );
 			p1.Add( 5.0, 8.0 );
 			p1.Add( 3.0, 6.0 );
 			p1.Add( 1.0, 8.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1303,7 +1304,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
 
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 2.0 );
 			exp.Add( 2.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -1326,14 +1327,14 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionPolyTwoSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 2.0 );
 			p1.Add( 5.0, 2.0 );
 			p1.Add( 5.0, 7.0 );
 			p1.Add( 3.0, 5.0 );
 			p1.Add( 1.0, 7.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1343,7 +1344,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 2.0 );
 			exp.Add( 2.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -1366,14 +1367,14 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionPolyTwoSidesAndLowerVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 5.0, 1.0 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1383,7 +1384,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 2.0 );
 			exp.Add( 2.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -1406,14 +1407,14 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionPolyFourSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.5 );
 			p1.Add( 5.0, 0.5 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1423,7 +1424,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 1.0, 0.5 );
 			exp.Add( 1.5, 0.5 );
@@ -1453,14 +1454,14 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionPolyVOverlaps()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 5.0, 0.0 );
 			p1.Add( 5.0, 5.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 1.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -1470,7 +1471,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 0.0 );
 			exp.Add( 5.0, 0.0 );
 			exp.Add( 5.0, 1.0 );
@@ -1495,29 +1496,29 @@ namespace Gpc
 		 */
 		[Test] public void TestUnionRectangleHole()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault(true);
+			IPoly p2 = new PolyDefault(true);
 			p2.Add( 1.0, 2.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 1.0, 4.0 );
       
-			Poly p12 = new PolyDefault();
+			IPoly p12 = new PolyDefault();
 			p12.Add( p1 );
 			p12.Add( p2 );
 
-			Poly p3 = new PolyDefault();
+			IPoly p3 = new PolyDefault();
 			p3.Add( 2.0, 0.0 );
 			p3.Add( 6.0, 0.0 );
 			p3.Add( 6.0, 6.0 );
 			p3.Add( 2.0, 6.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 2.0, 0.0 );
 			exp1.Add( 6.0, 0.0 );
 			exp1.Add( 6.0, 6.0 );
@@ -1527,13 +1528,13 @@ namespace Gpc
 			exp1.Add( 0.0, 1.0 );
 			exp1.Add( 2.0, 1.0 );
 
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 2.0, 2.0 );
 			exp2.Add( 1.0, 2.0 );
 			exp2.Add( 1.0, 4.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
       
@@ -1551,19 +1552,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorSeparate()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 0.0, 1.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 3.0 );
 
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( p2 );
 			exp.Add( p1 );
       
@@ -1578,26 +1579,26 @@ namespace Gpc
 		 */
 		[Test] public void TestXorOneContainsTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 2.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 3.0 );
       
 			// notice reverse order
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 3.0, 1.0 );
 			exp2.Add( 2.0, 1.0 );
 			exp2.Add( 2.0, 3.0 );
 			exp2.Add( 3.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( p1 );
 			exp.Add( exp2 );
       
@@ -1612,26 +1613,26 @@ namespace Gpc
 		 */
 		[Test] public void TestXorTwoContainsOne()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 1.0 );
 			p1.Add( 3.0, 1.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 2.0, 3.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
 			// notice reverse order
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 3.0, 1.0 );
 			exp2.Add( 2.0, 1.0 );
 			exp2.Add( 2.0, 3.0 );
 			exp2.Add( 3.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( p2 );
 			exp.Add( exp2 );
       
@@ -1646,13 +1647,13 @@ namespace Gpc
 		 */
 		[Test] public void TestXorTwoEqual()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 4.0 );
@@ -1669,19 +1670,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 0.0 );
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 0.0, 1.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 1.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 4.0 );
@@ -1700,19 +1701,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 4.0, 0.0 );
 			p2.Add( 4.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 3.0, 0.0 );
 			exp.Add( 3.0, 1.0 );
@@ -1731,19 +1732,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 4.0, 3.0 );
 			p2.Add( 4.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 3.0 );
@@ -1762,19 +1763,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 0.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 0.0 );
 			exp.Add( 4.0, 0.0 );
 			exp.Add( 4.0, 4.0 );
@@ -1793,19 +1794,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterCorner1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 3.0, 2.0 );
 			exp1.Add( 4.0, 2.0 );
 			exp1.Add( 4.0, 4.0 );
@@ -1813,7 +1814,7 @@ namespace Gpc
 			exp1.Add( 2.0, 3.0 );
 			exp1.Add( 3.0, 3.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 1.0, 1.0 );
 			exp2.Add( 3.0, 1.0 );
 			exp2.Add( 3.0, 2.0 );
@@ -1821,7 +1822,7 @@ namespace Gpc
 			exp2.Add( 2.0, 3.0 );
 			exp2.Add( 1.0, 3.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
       
@@ -1836,13 +1837,13 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterCorner2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 5.0, 1.0 );
 			p2.Add( 5.0, 3.0 );
@@ -1852,7 +1853,7 @@ namespace Gpc
 			// --- I expected this to give two non-hole inner polygons but it gave one with a hole    ---
 			// --- if you look at it, they are equivalent.  Don't have time to figure out difference. ---
 			// ------------------------------------------------------------------------------------------
-			//      Poly exp1 = new PolyDefault();
+			//      IPoly exp1 = new PolyDefault();
 			//      exp1.Add( 3.0, 1.0 );
 			//      exp1.Add( 5.0, 1.0 );
 			//      exp1.Add( 5.0, 3.0 );
@@ -1860,7 +1861,7 @@ namespace Gpc
 			//      exp1.Add( 4.0, 2.0 );
 			//      exp1.Add( 3.0, 2.0 );
 			//      
-			//      Poly exp2 = new PolyDefault();
+			//      IPoly exp2 = new PolyDefault();
 			//      exp2.Add( 2.0, 2.0 );
 			//      exp2.Add( 3.0, 2.0 );
 			//      exp2.Add( 3.0, 3.0 );
@@ -1868,13 +1869,13 @@ namespace Gpc
 			//      exp2.Add( 4.0, 4.0 );
 			//      exp2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault(true);
+			IPoly exp1 = new PolyDefault(true);
 			exp1.Add( 3.0, 2.0 );
 			exp1.Add( 3.0, 3.0 );
 			exp1.Add( 4.0, 3.0 );
 			exp1.Add( 4.0, 2.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 2.0, 2.0 );
 			exp2.Add( 3.0, 2.0 );
 			exp2.Add( 3.0, 1.0 );
@@ -1884,7 +1885,7 @@ namespace Gpc
 			exp2.Add( 4.0, 4.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp2 );
 			exp.Add( exp1 );
       
@@ -1900,19 +1901,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXortRectInterCorner3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 5.0, 3.0 );
 			p2.Add( 5.0, 5.0 );
 			p2.Add( 3.0, 5.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 2.0, 2.0 );
 			exp1.Add( 4.0, 2.0 );
 			exp1.Add( 4.0, 3.0 );
@@ -1920,7 +1921,7 @@ namespace Gpc
 			exp1.Add( 3.0, 4.0 );
 			exp1.Add( 2.0, 4.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 4.0, 3.0 );
 			exp2.Add( 5.0, 3.0 );
 			exp2.Add( 5.0, 5.0 );
@@ -1928,7 +1929,7 @@ namespace Gpc
 			exp2.Add( 3.0, 4.0 );
 			exp2.Add( 4.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp2 );
 			exp.Add( exp1 );
       
@@ -1943,13 +1944,13 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterCorner4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 2.0, 2.0 );
 			p1.Add( 4.0, 2.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 2.0, 4.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 3.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 3.0, 5.0 );
@@ -1960,13 +1961,13 @@ namespace Gpc
 			// --- if you look at it, they are equivalent.  Don't have time to figure out difference. ---
 			// ------------------------------------------------------------------------------------------
 
-			Poly exp1 = new PolyDefault(true);
+			IPoly exp1 = new PolyDefault(true);
 			exp1.Add( 3.0, 3.0 );
 			exp1.Add( 2.0, 3.0 );
 			exp1.Add( 2.0, 4.0 );
 			exp1.Add( 3.0, 4.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 1.0, 3.0 );
 			exp2.Add( 2.0, 3.0 );
 			exp2.Add( 2.0, 2.0 );
@@ -1976,7 +1977,7 @@ namespace Gpc
 			exp2.Add( 3.0, 5.0 );
 			exp2.Add( 1.0, 5.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp2 );
 			exp.Add( exp1 );
       
@@ -1992,19 +1993,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterSide1()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 0.0 );
 			p2.Add( 3.0, 0.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 1.0, 2.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 0.0, 1.0 );
 			exp.Add( 1.0, 1.0 );
 			exp.Add( 1.0, 0.0 );
@@ -2030,19 +2031,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXornRectInterSide2()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 5.0, 2.0 );
 			p2.Add( 5.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 4.0, 5.0 );
 			exp.Add( 0.0, 5.0 );
 			exp.Add( 0.0, 1.0 );
@@ -2068,19 +2069,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterSide3()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 1.0, 4.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 3.0, 6.0 );
 			p2.Add( 1.0, 6.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 4.0, 5.0 );
 			exp.Add( 3.0, 5.0 );
 			exp.Add( 3.0, 6.0 );
@@ -2106,19 +2107,19 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectInterSide4()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( -1.0, 2.0 );
 			p2.Add(  1.0, 2.0 );
 			p2.Add(  1.0, 4.0 );
 			p2.Add( -1.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add(  4.0, 5.0 );
 			exp.Add(  0.0, 5.0 );
 			exp.Add(  0.0, 4.0 );
@@ -2142,14 +2143,14 @@ namespace Gpc
 		 * polygons - 1 on top of two*/
 		[Test] public void TestXorPolyOneOnTopOfTwo()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 4.0 );
 			p1.Add( 5.0, 4.0 );
 			p1.Add( 5.0, 9.0 );
 			p1.Add( 3.0, 7.0 );
 			p1.Add( 1.0, 9.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2159,7 +2160,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 0.0, 2.0 );
 			exp1.Add( 2.0, 0.0 );
 			exp1.Add( 3.0, 1.0 );
@@ -2173,12 +2174,12 @@ namespace Gpc
 			exp1.Add( 1.0, 4.0 );
 			exp1.Add( 2.0, 4.0 );
       
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 4.0, 4.0 );
 			exp2.Add( 3.0, 3.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
       
@@ -2193,14 +2194,14 @@ namespace Gpc
 		 */
 		[Test] public void TestXorPolyTwoSidesOneVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 3.0 );
 			p1.Add( 5.0, 3.0 );
 			p1.Add( 5.0, 8.0 );
 			p1.Add( 3.0, 6.0 );
 			p1.Add( 1.0, 8.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2210,7 +2211,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
 
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 5.0, 8.0 );
 			exp1.Add( 3.0, 6.0 );
 			exp1.Add( 1.0, 8.0 );
@@ -2225,12 +2226,12 @@ namespace Gpc
 			exp1.Add( 4.0, 4.0 );
 			exp1.Add( 5.0, 3.0 );
       
-			Poly exp2 = new PolyDefault(true);
+			IPoly exp2 = new PolyDefault(true);
 			exp2.Add( 3.0, 3.0 );
 			exp2.Add( 1.0, 3.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
       
@@ -2245,14 +2246,14 @@ namespace Gpc
 		 */
 		[Test] public void TestXorPolyTwoSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 2.0 );
 			p1.Add( 5.0, 2.0 );
 			p1.Add( 5.0, 7.0 );
 			p1.Add( 3.0, 5.0 );
 			p1.Add( 1.0, 7.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2262,7 +2263,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 5.0, 7.0 );
 			exp1.Add( 3.0, 5.0 );
 			exp1.Add( 1.0, 7.0 );
@@ -2272,7 +2273,7 @@ namespace Gpc
 			exp1.Add( 4.0, 4.0 );
 			exp1.Add( 5.0, 3.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 5.0, 3.0 );
 			exp2.Add( 5.0, 2.0 );
 			exp2.Add( 1.0, 2.0 );
@@ -2283,7 +2284,7 @@ namespace Gpc
 			exp2.Add( 4.0, 0.0 );
 			exp2.Add( 6.0, 2.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );      
       
@@ -2298,14 +2299,14 @@ namespace Gpc
 		 */
 		[Test] public void TestXorPolyTwoSidesAndLowerVertex()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 1.0 );
 			p1.Add( 5.0, 1.0 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2315,7 +2316,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 5.0, 6.0 );
 			exp1.Add( 3.0, 4.0 );
 			exp1.Add( 1.0, 6.0 );
@@ -2325,21 +2326,21 @@ namespace Gpc
 			exp1.Add( 4.0, 4.0 );
 			exp1.Add( 5.0, 3.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 5.0, 3.0 );
 			exp2.Add( 5.0, 1.0 );
 			exp2.Add( 3.0, 1.0 );
 			exp2.Add( 4.0, 0.0 );
 			exp2.Add( 6.0, 2.0 );
       
-			Poly exp3 = new PolyDefault();
+			IPoly exp3 = new PolyDefault();
 			exp3.Add( 1.0, 3.0 );
 			exp3.Add( 0.0, 2.0 );
 			exp3.Add( 2.0, 0.0 );
 			exp3.Add( 3.0, 1.0 );
 			exp3.Add( 1.0, 1.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
 			exp.Add( exp3 );
@@ -2355,14 +2356,14 @@ namespace Gpc
 		 */
 		[Test] public void TestXorPolyFourSides()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.5 );
 			p1.Add( 5.0, 0.5 );
 			p1.Add( 5.0, 6.0 );
 			p1.Add( 3.0, 4.0 );
 			p1.Add( 1.0, 6.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2372,7 +2373,7 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 5.0, 6.0 );
 			exp1.Add( 3.0, 4.0 );
 			exp1.Add( 1.0, 6.0 );
@@ -2382,22 +2383,22 @@ namespace Gpc
 			exp1.Add( 4.0, 4.0 );
 			exp1.Add( 5.0, 3.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 5.0, 3.0 );
 			exp2.Add( 5.0, 1.0 );
 			exp2.Add( 6.0, 2.0 );
       
-			Poly exp3 = new PolyDefault();
+			IPoly exp3 = new PolyDefault();
 			exp3.Add( 1.0, 3.0 );
 			exp3.Add( 0.0, 2.0 );
 			exp3.Add( 1.0, 1.0 );
       
-			Poly exp4 = new PolyDefault();
+			IPoly exp4 = new PolyDefault();
 			exp4.Add( 5.0, 1.0 );
 			exp4.Add( 4.5, 0.5 );
 			exp4.Add( 5.0, 0.5 );
       
-			Poly exp5 = new PolyDefault();
+			IPoly exp5 = new PolyDefault();
 			exp5.Add( 3.0, 1.0 );
 			exp5.Add( 2.5, 0.5 );
 			exp5.Add( 3.5, 0.5 );
@@ -2405,7 +2406,7 @@ namespace Gpc
 			exp5.Add( 4.5, 0.5 );
 			exp5.Add( 3.5, 0.5 );
       
-			Poly exp6 = new PolyDefault();
+			IPoly exp6 = new PolyDefault();
 			exp6.Add( 1.0, 1.0 );
 			exp6.Add( 1.0, 0.5 );
 			exp6.Add( 1.5, 0.5 );
@@ -2413,7 +2414,7 @@ namespace Gpc
 			exp6.Add( 2.5, 0.5 );
 			exp6.Add( 1.5, 0.5 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
 			exp.Add( exp3 );
@@ -2432,14 +2433,14 @@ namespace Gpc
 		 */
 		[Test] public void TestXorPolyVOverlaps()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 1.0, 0.0 );
 			p1.Add( 5.0, 0.0 );
 			p1.Add( 5.0, 5.0 );
 			p1.Add( 3.0, 3.0 );
 			p1.Add( 1.0, 5.0 );
       
-			Poly p2 = new PolyDefault();
+			IPoly p2 = new PolyDefault();
 			p2.Add( 0.0, 2.0 );
 			p2.Add( 2.0, 0.0 );
 			p2.Add( 3.0, 1.0 );
@@ -2449,42 +2450,42 @@ namespace Gpc
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 2.0, 4.0 );
       
-			Poly exp1 = new PolyDefault();
+			IPoly exp1 = new PolyDefault();
 			exp1.Add( 5.0, 5.0 );
 			exp1.Add( 4.0, 4.0 );
 			exp1.Add( 5.0, 3.0 );
       
-			Poly exp2 = new PolyDefault();
+			IPoly exp2 = new PolyDefault();
 			exp2.Add( 1.0, 5.0 );
 			exp2.Add( 1.0, 3.0 );
 			exp2.Add( 2.0, 4.0 );
       
-			Poly exp3 = new PolyDefault();
+			IPoly exp3 = new PolyDefault();
 			exp3.Add( 5.0, 3.0 );
 			exp3.Add( 5.0, 1.0 );
 			exp3.Add( 6.0, 2.0 );
       
-			Poly exp4 = new PolyDefault();
+			IPoly exp4 = new PolyDefault();
 			exp4.Add( 1.0, 3.0 );
 			exp4.Add( 0.0, 2.0 );
 			exp4.Add( 1.0, 1.0 );
       
-			Poly exp5 = new PolyDefault();
+			IPoly exp5 = new PolyDefault();
 			exp5.Add( 5.0, 1.0 );
 			exp5.Add( 4.0, 0.0 );
 			exp5.Add( 5.0, 0.0 );
       
-			Poly exp6 = new PolyDefault();
+			IPoly exp6 = new PolyDefault();
 			exp6.Add( 3.0, 1.0 );
 			exp6.Add( 2.0, 0.0 );
 			exp6.Add( 4.0, 0.0 );
       
-			Poly exp7 = new PolyDefault();
+			IPoly exp7 = new PolyDefault();
 			exp7.Add( 1.0, 1.0 );
 			exp7.Add( 1.0, 0.0 );
 			exp7.Add( 2.0, 0.0 );
       
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( exp1 );
 			exp.Add( exp2 );
 			exp.Add( exp3 );
@@ -2503,23 +2504,23 @@ namespace Gpc
 		 */
 		[Test] public void TestXorRectangleHole()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 1.0 );
 			p1.Add( 4.0, 1.0 );
 			p1.Add( 4.0, 5.0 );
 			p1.Add( 0.0, 5.0 );
       
-			Poly p2 = new PolyDefault(true);
+			IPoly p2 = new PolyDefault(true);
 			p2.Add( 1.0, 2.0 );
 			p2.Add( 3.0, 2.0 );
 			p2.Add( 3.0, 4.0 );
 			p2.Add( 1.0, 4.0 );
       
-			Poly p12 = new PolyDefault();
+			IPoly p12 = new PolyDefault();
 			p12.Add( p1 );
 			p12.Add( p2 );
 
-			Poly p3 = new PolyDefault();
+			IPoly p3 = new PolyDefault();
 			p3.Add( 2.0, 0.0 );
 			p3.Add( 6.0, 0.0 );
 			p3.Add( 6.0, 6.0 );
@@ -2532,7 +2533,7 @@ namespace Gpc
 			// --- I computed the area of this poly and it came out to ---
 			// --- be 24 which is what you would expect.               ---
 			// -----------------------------------------------------------
-			Poly exp = new PolyDefault();
+			IPoly exp = new PolyDefault();
 			exp.Add( 6.0, 6.0 );
 			exp.Add( 2.0, 6.0 );
 			exp.Add( 2.0, 5.0 );
@@ -2560,3 +2561,4 @@ namespace Gpc
 		}
 	}
 }
+#endif

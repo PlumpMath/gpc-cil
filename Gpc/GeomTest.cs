@@ -1,3 +1,4 @@
+#if DEBUG
 /*
  * This license does NOT supersede the original license of GPC.  Please see:
  * http://www.cs.man.ac.uk/~toby/alan/software/#Licensing
@@ -55,3 +56,4 @@ namespace Gpc
 	{
 	}
 }
+#endif

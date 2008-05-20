@@ -1,3 +1,4 @@
+#if DEBUG
 /*
  * This license does NOT supersede the original license of GPC.  Please see:
  * http://www.cs.man.ac.uk/~toby/alan/software/#Licensing
@@ -62,8 +63,8 @@ namespace Gpc
 		 */
 		[Test] public void testEqualEmpty()
 		{
-			Poly p0a = new PolyDefault();
-			Poly p0b = new PolyDefault();
+			IPoly p0a = new PolyDefault();
+			IPoly p0b = new PolyDefault();
       
 			Assert.IsTrue( p0a != p0b );
 			Assert.AreEqual( p0a, p0b );
@@ -76,13 +77,13 @@ namespace Gpc
 		 */
 		[Test] public void testEqualSame()
 		{  
-			Poly p1a = new PolyDefault();
+			IPoly p1a = new PolyDefault();
 			p1a.Add( 0.0, 0.0 );
 			p1a.Add( 4.0, 0.0 );
 			p1a.Add( 4.0, 4.0 );
 			p1a.Add( 0.0, 4.0 );
       
-			Poly p1b = new PolyDefault();
+			IPoly p1b = new PolyDefault();
 			p1b.Add( 0.0, 0.0 );
 			p1b.Add( 4.0, 0.0 );
 			p1b.Add( 4.0, 4.0 );
@@ -99,13 +100,13 @@ namespace Gpc
 		 */
 		[Test] public void testEqualDifferentOrder()
 		{  
-			Poly p1a = new PolyDefault();
+			IPoly p1a = new PolyDefault();
 			p1a.Add( 0.0, 0.0 );
 			p1a.Add( 4.0, 0.0 );
 			p1a.Add( 4.0, 4.0 );
 			p1a.Add( 0.0, 4.0 );
       
-			Poly p1b = new PolyDefault();
+			IPoly p1b = new PolyDefault();
 			p1b.Add( 0.0, 4.0 );
 			p1b.Add( 0.0, 0.0 );
 			p1b.Add( 4.0, 0.0 );
@@ -121,13 +122,13 @@ namespace Gpc
 		 */
 		[Test] public void testEqualBadOrder()
 		{  
-			Poly p1a = new PolyDefault();
+			IPoly p1a = new PolyDefault();
 			p1a.Add( 0.0, 0.0 );
 			p1a.Add( 4.0, 0.0 );
 			p1a.Add( 4.0, 4.0 );
 			p1a.Add( 0.0, 4.0 );
       
-			Poly p1b = new PolyDefault();
+			IPoly p1b = new PolyDefault();
 			p1b.Add( 0.0, 0.0 );
 			p1b.Add( 0.0, 4.0 );
 			p1b.Add( 4.0, 0.0 );
@@ -142,11 +143,11 @@ namespace Gpc
 		 */
 		[Test] public void testEqualDifferentNumPoints()
 		{  
-			Poly p1a = new PolyDefault();
+			IPoly p1a = new PolyDefault();
 			p1a.Add( 0.0, 0.0 );
 			p1a.Add( 4.0, 0.0 );
       
-			Poly p1b = new PolyDefault();
+			IPoly p1b = new PolyDefault();
 			p1b.Add( 0.0, 0.0 );
 			p1b.Add( 4.0, 0.0 );
 			p1b.Add( 4.0, 4.0 );
@@ -161,13 +162,13 @@ namespace Gpc
 		 */
 		[Test] public void testEqualDifferentValue()
 		{  
-			Poly p1a = new PolyDefault();
+			IPoly p1a = new PolyDefault();
 			p1a.Add( 0.0, 0.0 );
 			p1a.Add( 4.0, 0.0 );
 			p1a.Add( 4.0, 4.0 );
 			p1a.Add( 0.0, 4.0 );
       
-			Poly p1b = new PolyDefault();
+			IPoly p1b = new PolyDefault();
 			p1b.Add( 0.0, 0.0 );
 			p1b.Add( 4.0, 0.0 );
 			p1b.Add( 4.0, 4444444.0 );
@@ -182,7 +183,7 @@ namespace Gpc
 		 */
 		[Test] public void testAreaTriangle()
 		{
-			Poly p = new PolyDefault();
+			IPoly p = new PolyDefault();
 			p.Add( 0.0, 0.0 );
 			p.Add( 2.0, 0.0 );
 			p.Add( 2.0, 2.0 );
@@ -195,7 +196,7 @@ namespace Gpc
 		 */
 		[Test] public void testAreaSquare()
 		{
-			Poly p = new PolyDefault();
+			IPoly p = new PolyDefault();
 			p.Add( 0.0, 0.0 );
 			p.Add( 2.0, 0.0 );
 			p.Add( 2.0, 2.0 );
@@ -209,7 +210,7 @@ namespace Gpc
 		 */
 		[Test] public void testAreaNonConvex()
 		{
-			Poly p = new PolyDefault();
+			IPoly p = new PolyDefault();
 			p.Add( 0.0, 0.0 );
 			p.Add( 0.0, 8.0 );
 			p.Add( 6.0, 4.0 );
@@ -224,19 +225,19 @@ namespace Gpc
 		 */
 		[Test] public void testAreaWithHole()
 		{
-			Poly p1 = new PolyDefault();
+			IPoly p1 = new PolyDefault();
 			p1.Add( 0.0, 0.0 );
 			p1.Add( 4.0, 0.0 );
 			p1.Add( 4.0, 4.0 );
 			p1.Add( 0.0, 4.0 );
       
-			Poly p2 = new PolyDefault(true);
+			IPoly p2 = new PolyDefault(true);
 			p2.Add( 1.0, 1.0 );
 			p2.Add( 3.0, 1.0 );
 			p2.Add( 3.0, 3.0 );
 			p2.Add( 1.0, 3.0 );
       
-			Poly p = new PolyDefault();
+			IPoly p = new PolyDefault();
 			p.Add( p1 );
 			p.Add( p2 );
       
@@ -248,7 +249,7 @@ namespace Gpc
 		 */
 		[Test] public void testSelfIntersecting()
 		{
-			Poly p = new PolyDefault();
+			IPoly p = new PolyDefault();
 			p.Add( 6.0, 6.0 );
 			p.Add( 2.0, 6.0 );
 			p.Add( 2.0, 5.0 );
@@ -274,3 +275,4 @@ namespace Gpc
 		}
 	}
 }
+#endif

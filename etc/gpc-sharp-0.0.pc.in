@@ -1,0 +1,8 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+Name: Gpc
+Description: Gpc - Generic Polygon Clipping library - .NET port
+Version: 0.0.0
+Libs: -r:${libdir}/cli/gpc-0.0/Gpc.dll

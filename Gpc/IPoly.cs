@@ -69,7 +69,7 @@ namespace Gpc
 	 *
 	 * @author  Dan Bridenbecker, Solution Engineering, Inc.
 	 */
-	public interface Poly
+	public interface IPoly
 	{
 		// ----------------------
 		// --- Methods ---
@@ -93,7 +93,7 @@ namespace Gpc
 		 * Add an inner polygon to this polygon - assumes that adding polygon does not
 		 * have any inner polygons.
 		 */
-		void Add( Poly p );
+		void Add( IPoly p );
    
 		/**
 		 * Return true if the polygon is empty
@@ -108,17 +108,18 @@ namespace Gpc
 		/**
 		 * Returns the polygon at this index.
 		 */
-		Poly GetInnerPoly( int polyIndex );
+		IPoly GetInnerPoly( int polyIndex );
    
-		/**
-		 * Returns the number of inner polygons - inner polygons are assumed to return one here.
-		 */
-		int GetNumInnerPoly();   
-   
-		/**
-		 * Return the number points of the first inner polygon
-		 */
-		int GetNumPoints();
+		/// <summary>
+		/// Returns the number of inner polygons. Inner polygons are
+		/// assumed to always return 1 here.
+		/// </summary>
+		int InnerPolygonCount { get; }
+
+		/// <summary>
+		/// Returns the number of points in the first inner polygon.
+		/// </summary>
+		int PointCount { get; }
    
 		/**
 		 * Return the X value of the point at the index in the first inner polygon
@@ -158,22 +159,28 @@ namespace Gpc
 		void SetContributing( int polyIndex, bool contributes );
    
 		/**
-		 * Return a Poly that is the intersection of this polygon with the given polygon.
+		 * Return a IPoly that is the difference of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 */
-		Poly Intersection( Poly p );
+		IPoly Difference( IPoly p );
       
 		/**
-		 * Return a Poly that is the union of this polygon with the given polygon.
+		 * Return a IPoly that is the intersection of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 */
-		Poly Union( Poly p );
+		IPoly Intersection( IPoly p );
+      
+		/**
+		 * Return a IPoly that is the union of this polygon with the given polygon.
+		 * The returned polygon could be complex.
+		 */
+		IPoly Union( IPoly p );
    
 		/**
-		 * Return a Poly that is the exclusive-or of this polygon with the given polygon.
+		 * Return a IPoly that is the exclusive-or of this polygon with the given polygon.
 		 * The returned polygon could be complex.
 		 */
-		Poly Xor( Poly p );
+		IPoly Xor( IPoly p );
    
 		/**
 		 * Return the area of the polygon in square units.

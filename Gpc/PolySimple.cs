@@ -56,7 +56,7 @@ namespace Gpc
 	 * @author  Dan Bridenbecker, Solution Engineering, Inc.
 	 */
 	public class PolySimple
-	: Poly
+	: IPoly
 	{
 		// -----------------
 		// --- Constants ---
@@ -168,7 +168,7 @@ namespace Gpc
 		 */
 		public override string ToString()
 		{
-			return "PolySimple: num_points="+GetNumPoints();
+			return "PolySimple: num_points="+PointCount;
 		}
    
 		// --------------------
@@ -201,7 +201,7 @@ namespace Gpc
 		/**
 		 * Throws exception if called
 		 */
-		public void Add(Poly p)
+		public void Add(IPoly p)
 		{
 			throw new Exception("Cannot add poly to a simple poly.");
 		}
@@ -242,7 +242,7 @@ namespace Gpc
 		 * Returns <code>this</code> if <code>polyIndex = 0</code>, else it throws
 		 * Exception.
 		 */
-		public Poly GetInnerPoly(int polyIndex)
+		public IPoly GetInnerPoly(int polyIndex)
 		{
 			if( polyIndex != 0 )
 			{
@@ -251,21 +251,21 @@ namespace Gpc
 			return this ;
 		}
    
-		/**
-		 * Always returns 1.
-		 */
-		public int GetNumInnerPoly()
+		/// <summary>
+		/// Always return one for the simple polygon.
+		/// </summary>
+		public int InnerPolygonCount
 		{
-			return 1 ;
+			get { return 1; }
 		}
-   
-		/**
-		 * Return the number points of the first inner polygon
-		 */
-		public int GetNumPoints()
+
+		/// <summary>
+		/// Returns the number of points in this polygon.
+		/// </summary>
+		public int PointCount
 		{
-			return m_List.Count;
-		}   
+			get { return m_List.Count; }
+		}
 
 		/**
 		 * Return the X value of the point at the index in the first inner polygon
@@ -330,34 +330,45 @@ namespace Gpc
 		}
    
 		/**
-		 * Return a Poly that is the intersection of this polygon with the given polygon.
+		 * Return a IPoly that is the difference of this polygon with the given polygon.
 		 * The returned polygon is simple.
 		 *
-		 * @return The returned Poly is of type PolySimple
+		 * @return The returned IPoly is of type PolySimple
 		 */
-		public Poly Intersection(Poly p)
+		public IPoly Difference(IPoly p)
+		{
+			return Clipper.Difference( this, p, GetType() );
+		}
+   
+		/**
+		 * Return a IPoly that is the intersection of this polygon with the given polygon.
+		 * The returned polygon is simple.
+		 *
+		 * @return The returned IPoly is of type PolySimple
+		 */
+		public IPoly Intersection(IPoly p)
 		{
 			return Clipper.Intersection( this, p, GetType() );
 		}
    
 		/**
-		 * Return a Poly that is the union of this polygon with the given polygon.
+		 * Return a IPoly that is the union of this polygon with the given polygon.
 		 * The returned polygon is simple.
 		 *
-		 * @return The returned Poly is of type PolySimple
+		 * @return The returned IPoly is of type PolySimple
 		 */
-		public Poly Union(Poly p)
+		public IPoly Union(IPoly p)
 		{
 			return Clipper.Union( this, p, GetType() );
 		}
    
 		/**
-		 * Return a Poly that is the exclusive-or of this polygon with the given polygon.
+		 * Return a IPoly that is the exclusive-or of this polygon with the given polygon.
 		 * The returned polygon is simple.
 		 *
-		 * @return The returned Poly is of type PolySimple
+		 * @return The returned IPoly is of type PolySimple
 		 */
-		public Poly Xor(Poly p)
+		public IPoly Xor(IPoly p)
 		{
 			return Clipper.Xor( p, this, GetType() );
 		}
@@ -370,14 +381,14 @@ namespace Gpc
 		 */
 		public double GetArea()
 		{
-			if( GetNumPoints() < 3 )
+			if(PointCount < 3 )
 			{
 				return 0.0 ;
 			}
 			double ax = GetX(0);
 			double ay = GetY(0);
 			double area = 0.0 ;
-			for( int i = 1 ; i < (GetNumPoints()-1) ; i++ )
+			for( int i = 1 ; i < (PointCount - 1) ; i++ )
 			{
 				double bx = GetX(i);
 				double by = GetY(i);

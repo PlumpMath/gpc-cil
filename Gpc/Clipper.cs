@@ -872,7 +872,7 @@ namespace Gpc
 			for ( int c= 0; c < p.InnerPolygonCount; c++)
 			{
 				IPoly inner_poly = p.GetInnerPoly(c);
-				box[c] = inner_poly.GetBounds();
+				box[c] = inner_poly.Bounds;
 			}
 			return box;  
 		}

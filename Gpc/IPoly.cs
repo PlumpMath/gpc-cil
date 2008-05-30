@@ -71,6 +71,8 @@ namespace Gpc
 	 */
 	public interface IPoly
 	{
+		IPoly Duplicate();
+
 		// ----------------------
 		// --- Methods ---
 		// ----------------------
@@ -100,10 +102,10 @@ namespace Gpc
 		 */
 		bool IsEmpty();
    
-		/**
-		 * Returns the bounding rectangle of this polygon.
-		 */
-		RectangleF GetBounds();
+		/// <summary>
+		/// Returns the bounding rectangle of the entire polygon.
+		/// </summary>
+		RectangleF Bounds { get; }
    
 		/**
 		 * Returns the polygon at this index.
@@ -151,6 +153,11 @@ namespace Gpc
 		 * This method should NOT be used outside the Clip algorithm.
 		 */
 		bool IsContributing( int polyIndex );
+
+		/// <summary>
+		/// Returns true if the two polygons intersect.
+		/// </summary>
+		bool HasIntersection(IPoly p);
    
 		/**
 		 * Set whether or not this inner polygon is constributing to the set operation.
@@ -181,10 +188,16 @@ namespace Gpc
 		 * The returned polygon could be complex.
 		 */
 		IPoly Xor( IPoly p );
-   
-		/**
-		 * Return the area of the polygon in square units.
-		 */
-		double GetArea();
+
+		/// <summary>
+		/// Translates the polygons and returns the results as a new
+		/// polygon.
+		/// </summary>
+		IPoly Translate(double dx, double dy);
+
+		/// <summary>
+		/// Contains the area of the polygon.
+		/// </summary>
+		double Area { get; }
 	}
 }

@@ -74,26 +74,54 @@ namespace Gpc
 		/**
 		 * Only applies to the first poly and can only be used with a poly that contains one poly
 		 */
-		private   bool m_IsHole = false ;
+		private   bool isHole = false;
 		protected ArrayList m_List = new ArrayList();
    
-		// --------------------
-		// --- Constructors ---
-		// --------------------
-		/** Creates a new instance of PolyDefault */
+		#region Constructors
+		/// <summary>
+		/// Creates a new empty polygon.
+		/// </summary>
 		public PolyDefault()
 			: this(false)
 		{
 		}
-   
-		public PolyDefault( bool isHole )
+
+		/// <summary>
+		/// Creates a new polygon with a set hole status.
+		/// </summary>
+		public PolyDefault(bool isHole)
 		{
-			m_IsHole = isHole ;
+			isHole = isHole;
 		}
+
+		/// <summary>
+		/// Copy constructor that duplicates a polygon.
+		/// </summary>
+		public PolyDefault(PolyDefault poly)
+			: this(poly.isHole)
+		{
+			// Copy the contents of the array
+			for (int i = 0; i < poly.InnerPolygonCount; i++)
+			{
+				// Copy this polygon
+				IPoly ip = poly.GetInnerPoly(i);
+				m_List.Add(ip.Duplicate());
+			}
+		}
+		#endregion
    
 		// ----------------------
 		// --- Object Methods ---
 		// ----------------------
+
+		/// <summary>
+		/// Duplicates the polygon and returns the results.
+		/// </summary>
+		public IPoly Duplicate()
+		{
+			return new PolyDefault(this);
+		}
+
 		/**
 		 * Return true if the given object is equal to this one.
 		 */
@@ -107,7 +135,7 @@ namespace Gpc
 			PolyDefault that = (PolyDefault) obj;
 
 			// We need to have the same hole type
-			if (this.m_IsHole != that.m_IsHole)
+			if (this.isHole != that.isHole)
 				return false;
 
 			// Go through the elements to match
@@ -136,7 +164,7 @@ namespace Gpc
 		 **/
 		public override int GetHashCode()
 		{
-			int result = 17 ;
+			int result = 17;
 			result = 37*result + m_List.GetHashCode();
 			return result;
 		}
@@ -188,7 +216,7 @@ namespace Gpc
 		 */
 		public void Add( IPoly p )
 		{
-			if( (m_List.Count > 0) && m_IsHole )
+			if( (m_List.Count > 0) && isHole )
 			{
 				throw new Exception("Cannot add polys to something designated as a hole.");
 			}
@@ -203,24 +231,32 @@ namespace Gpc
 			return m_List.Count == 0;
 		}
    
-		/**
-		 * Returns the bounding rectangle of this polygon.
-		 * <strong>WARNING</strong> Not supported on complex polygons.
-		 */
-		public RectangleF GetBounds()
+		/// <summary>
+		/// Returns the bounding rectangle of the entire polygon.
+		/// </summary>
+		public RectangleF Bounds
 		{
-			if( m_List.Count == 0 )
+			get
 			{
-				return new RectangleF();
-			}
-			else if( m_List.Count == 1 )
-			{
-				IPoly ip = GetInnerPoly(0);
-				return ip.GetBounds();
-			}
-			else
-			{
-				throw new Exception("getBounds not supported on complex poly.");
+				// Check for empty lists
+				if( m_List.Count == 0 )
+				{
+					return RectangleF.Empty;
+				}
+
+				// Get the first one
+				RectangleF bounds = GetInnerPoly(0).Bounds;
+
+				// If there is only one element, just return it
+				if (m_List.Count == 1)
+					return bounds;
+
+				// Go through the results
+				for (int i = 1; i < InnerPolygonCount; i++)
+					bounds = RectangleF.Union(bounds, GetInnerPoly(i).Bounds);
+
+				// Return the results
+				return bounds;
 			}
 		}
    
@@ -266,7 +302,7 @@ namespace Gpc
 		 */
 		public double GetX(int index)
 		{
-			return ((IPoly)m_List[0]).GetX(index) ;
+			return ((IPoly)m_List[0]).GetX(index);
 		}
    
 		/**
@@ -274,7 +310,7 @@ namespace Gpc
 		 */
 		public double GetY(int index)
 		{
-			return ((IPoly)m_List[0]).GetY(index) ;
+			return ((IPoly)m_List[0]).GetY(index);
 		}
    
 		/**
@@ -289,7 +325,7 @@ namespace Gpc
 			{
 				throw new Exception( "Cannot call on a poly made up of more than one poly." );
 			}
-			return m_IsHole ;
+			return isHole;
 		}
    
 		/**
@@ -303,7 +339,7 @@ namespace Gpc
 			{
 				throw new Exception( "Cannot call on a poly made up of more than one poly." );
 			}
-			m_IsHole = isHole ;
+			isHole = isHole;
 		}
    
 		/**
@@ -315,6 +351,16 @@ namespace Gpc
 			return ((IPoly)m_List[polyIndex]).IsContributing(0);
 		}
    
+		/// <summary>
+		/// Returns true if the two polygons intersect.
+		/// </summary>
+		public bool HasIntersection(IPoly p)
+		{
+			// Get the intersection
+			IPoly intersection = Intersection(p);
+			return intersection.PointCount != 0;
+		}
+   
 		/**
 		 * Set whether or not this inner polygon is constributing to the set operation.
 		 * This method should NOT be used outside the Clip algorithm.
@@ -323,10 +369,14 @@ namespace Gpc
 		 */
 		public void SetContributing( int polyIndex, bool contributes)
 		{
+#if REMOVED
+			// this was in the java version
 			if( m_List.Count != 1 )
 			{
-				throw new Exception( "Only applies to polys of size 1" );
+				throw new Exception("Only applies to polys of size 1 instead of " + m_List.Count);
 			}
+#endif
+
 			((IPoly)m_List[polyIndex]).SetContributing( 0, contributes );
 		}
    
@@ -377,16 +427,39 @@ namespace Gpc
 		/**
 		 * Return the area of the polygon in square units.
 		 */
-		public double GetArea()
+		public double Area
 		{
-			double area = 0.0 ;
-			for( int i = 0 ; i < InnerPolygonCount ; i++ )
+			get
 			{
-				IPoly p = GetInnerPoly(i);
-				double tarea = p.GetArea() * (p.IsHole() ? -1.0 : 1.0);
-				area += tarea ;
+				double area = 0.0;
+				for( int i = 0; i < InnerPolygonCount; i++ )
+				{
+					IPoly p = GetInnerPoly(i);
+					double tarea = p.Area * (p.IsHole() ? -1.0 : 1.0);
+					area += tarea;
+				}
+				return area;
 			}
-			return area ;
+		}
+
+		/// <summary>
+		/// Translates the polygons and returns the results as a new
+		/// polygon.
+		/// </summary>
+		public IPoly Translate(double dx, double dy)
+		{
+			// Create a new polygon
+			PolyDefault poly = new PolyDefault();
+
+			// Go through the inner polygons
+			for (int i = 0; i < InnerPolygonCount; i++)
+			{
+				// Create the new polygon list
+				poly.m_List.Add(((IPoly) m_List[i]).Translate(dx, dy));
+			}
+
+			// Return the results
+			return poly;
 		}
 
 		// -----------------------
@@ -394,11 +467,11 @@ namespace Gpc
 		// -----------------------
 		public void Print()
 		{
-			for( int i = 0 ; i < m_List.Count ; i++ )
+			for( int i = 0; i < m_List.Count; i++ )
 			{
 				IPoly p = GetInnerPoly(i);
 				Console.WriteLine("InnerPoly("+i+").hole="+p.IsHole());
-				for( int j = 0 ; j < p.PointCount; j++ )
+				for( int j = 0; j < p.PointCount; j++ )
 				{
 					Console.WriteLine(p.GetX(j)+"  "+p.GetY(j));
 				}

@@ -73,17 +73,39 @@ namespace Gpc
 		/** Flag used by the Clip algorithm */
 		private bool m_Contributes = true ;
    
-		// --------------------
-		// --- Constructors ---
-		// --------------------
-		/** Creates a new instance of PolySimple */
+		#region Constructors
+		/// <summary>
+		/// Creates a new empty polygon.
+		/// </summary>
 		public PolySimple()
 		{
 		}
+
+		/// <summary>
+		/// Copy constructor that copies the polygon given.
+		/// </summary>
+		public PolySimple(PolySimple poly)
+		{
+			// Copy the fields
+			m_Contributes = poly.m_Contributes;
+
+			// Copy the points
+			foreach (PointF p in poly.m_List)
+				m_List.Add(new PointF(p.X, p.Y));
+		}
+		#endregion
    
 		// ----------------------
 		// --- Object Methods ---
 		// ----------------------
+		/// <summary>
+		/// Duplicates the polygon and returns a copy.
+		/// </summary>
+		public IPoly Duplicate()
+		{
+			return new PolySimple(this);
+		}
+
 		/**
 		 * Return true if the given object is equal to this one.
 		 * <p>
@@ -214,28 +236,31 @@ namespace Gpc
 			return m_List.Count == 0;
 		}
    
-		/**
-		 * Returns the bounding rectangle of this polygon.
-		 */
-		public RectangleF GetBounds()
+		/// <summary>
+		/// Returns the bounding rectangle of the entire polygon.
+		/// </summary>
+		public RectangleF Bounds
 		{
-			double xmin =  Double.MaxValue ;
-			double ymin =  Double.MaxValue ;
-			double xmax = -Double.MaxValue ;
-			double ymax = -Double.MaxValue ;
-      
-			for( int i = 0 ; i < m_List.Count ; i++ )
+			get
 			{
-				double x = GetX(i);
-				double y = GetY(i);
-				if( x < xmin ) xmin = x;
-				if( x > xmax ) xmax = x;
-				if( y < ymin ) ymin = y;
-				if( y > ymax ) ymax = y;
+				double xmin =  Double.MaxValue ;
+				double ymin =  Double.MaxValue ;
+				double xmax = -Double.MaxValue ;
+				double ymax = -Double.MaxValue ;
+				
+				for( int i = 0 ; i < m_List.Count ; i++ )
+				{
+					double x = GetX(i);
+					double y = GetY(i);
+					if( x < xmin ) xmin = x;
+					if( x > xmax ) xmax = x;
+					if( y < ymin ) ymin = y;
+					if( y > ymax ) ymax = y;
+				}
+				
+				return new RectangleF( (float) xmin, (float) ymin,
+					(float) (xmax-xmin), (float) (ymax-ymin) );
 			}
-      
-			return new RectangleF( (float) xmin, (float) ymin,
-				(float) (xmax-xmin), (float) (ymax-ymin) );
 		}
    
 		/**
@@ -314,6 +339,16 @@ namespace Gpc
 			return m_Contributes ;
 		}
    
+		/// <summary>
+		/// Returns true if the two polygons intersect.
+		/// </summary>
+		public bool HasIntersection(IPoly p)
+		{
+			// Get the intersection
+			IPoly intersection = Intersection(p);
+			return intersection.PointCount != 0;
+		}
+   
 		/**
 		 * Set whether or not this inner polygon is constributing to the set operation.
 		 * This method should NOT be used outside the Clip algorithm.
@@ -379,28 +414,55 @@ namespace Gpc
 		 * The algorithm for the area of a complex polygon was take from
 		 * code by Joseph O'Rourke author of " Computational Geometry in C".
 		 */
-		public double GetArea()
+		public double Area
 		{
-			if(PointCount < 3 )
+			get
 			{
-				return 0.0 ;
+				if(PointCount < 3 )
+				{
+					return 0.0 ;
+				}
+				double ax = GetX(0);
+				double ay = GetY(0);
+				double area = 0.0 ;
+				for( int i = 1 ; i < (PointCount - 1) ; i++ )
+				{
+					double bx = GetX(i);
+					double by = GetY(i);
+					double cx = GetX(i+1);
+					double cy = GetY(i+1);
+					double tarea = ((cx - bx)*(ay - by)) - ((ax - bx)*(cy - by));
+					area += tarea ;
+				}
+				area = 0.5*Math.Abs(area);
+				return area ;
 			}
-			double ax = GetX(0);
-			double ay = GetY(0);
-			double area = 0.0 ;
-			for( int i = 1 ; i < (PointCount - 1) ; i++ )
-			{
-				double bx = GetX(i);
-				double by = GetY(i);
-				double cx = GetX(i+1);
-				double cy = GetY(i+1);
-				double tarea = ((cx - bx)*(ay - by)) - ((ax - bx)*(cy - by));
-				area += tarea ;
-			}
-			area = 0.5*Math.Abs(area);
-			return area ;
 		}
    
+		/// <summary>
+		/// Translates the polygons and returns the results as a new
+		/// polygon.
+		/// </summary>
+		public IPoly Translate(double dx, double dy)
+		{
+			// Create a new polygon
+			PolySimple poly = new PolySimple();
+			
+			// Go through those elements
+			for (int j = 0; j < PointCount; j++)
+			{
+				// Get the points
+				double x = dx + GetX(j);
+				double y = dy + GetY(j);
+				
+				// Add it
+				poly.Add(x, y);
+			}
+
+			// Return the results
+			return poly;
+		}
+
 		// -----------------------
 		// --- Package Methods ---
 		// -----------------------

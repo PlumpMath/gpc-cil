@@ -1,0 +1,21 @@
+
+# /
+/config.log
+/build
+/autom4te.cache
+/TestResult.xml
+/configure
+/Makefile.in
+/config.status
+/INSTALL
+/COPYING
+/missing
+/aclocal.m4
+/Makefile
+/install-sh
+
+# /Gpc/
+/Gpc/AssemblyInfo.cs
+
+# /etc/
+/etc/*.pc
